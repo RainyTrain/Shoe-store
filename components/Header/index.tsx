@@ -1,4 +1,5 @@
 import { getStaticProps } from '@/pages';
+import Image from 'next/image';
 import Link from 'next/link';
 import style from './header.module.scss';
 
@@ -8,7 +9,9 @@ const Header = () => {
       <div className={style.details}>
         <ul>
           <li>
-            <div className={style.logo}>Logo</div>
+            <div className={style.logo}>
+              <img src="https://cdn-icons-png.flaticon.com/512/1785/1785348.png" alt="Logo" />
+            </div>
           </li>
           <li>
             <div>Sale</div>
