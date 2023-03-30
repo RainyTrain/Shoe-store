@@ -1,9 +1,25 @@
+import { ThemeContext } from '@/Context/ThemeContext';
 import Link from 'next/link';
+import { useContext } from 'react';
 import style from './header.module.scss';
 
 const Header = () => {
+  const { theme, setTheme } = useContext(ThemeContext);
+
+  const handleTheme = () => {
+    switch (theme) {
+      case 'light':
+        setTheme('dark');
+        break;
+      case 'dark':
+        setTheme('light');
+        break;
+    }
+    console.log(theme)
+  };
+
   return (
-    <header className={style.header}>
+    <header  className={theme == 'light' ? `${style.header}` : `${style.dark} ${style.header}`}>
       <div className={style.details}>
         <ul>
           <li>
@@ -29,6 +45,9 @@ const Header = () => {
             <Link href="/about" legacyBehavior>
               <a>About</a>
             </Link>
+          </li>
+          <li>
+            <button onClick={handleTheme} className={theme == 'light' ? '' : `${style.dark}`}></button>
           </li>
         </ul>
       </div>
