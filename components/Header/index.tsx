@@ -15,11 +15,11 @@ const Header = () => {
         setTheme('light');
         break;
     }
-    console.log(theme)
+    console.log(theme);
   };
 
   return (
-    <header  className={theme == 'light' ? `${style.header}` : `${style.dark} ${style.header}`}>
+    <header className={theme == 'light' ? `${style.header}` : `${style.dark} ${style.header}`}>
       <div className={style.details}>
         <ul>
           <li>
@@ -47,7 +47,9 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <button onClick={handleTheme} className={theme == 'light' ? '' : `${style.dark}`}></button>
+            <button
+              onClick={handleTheme}
+              className={theme == 'light' ? '' : `${style.dark}`}></button>
           </li>
         </ul>
       </div>
@@ -56,9 +58,11 @@ const Header = () => {
           <li>
             <div>Cart</div>
           </li>
-          <li>
-            <div>LOGIN</div>
-          </li>
+          <Link href="/register">
+            <li>
+              <div>LOGIN</div>
+            </li>
+          </Link>
         </ul>
       </div>
     </header>
