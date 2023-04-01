@@ -1,0 +1,43 @@
+.signup {
+  height: 200px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+
+  input {
+    width: 300px;
+    height: 30px;
+    border: 0;
+    padding-left: 3px;
+    font-size: 1rem;
+    border-radius: 3px;
+    outline: none;
+    border: 0.8px solid black;
+    margin: 5px 0 5px 0;
+  }
+}
+
+.selected {
+  color: red;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.logo {
+  width: 100vw;
+  font-size: 2rem;
+  color: red;
+  display: flex;
+  justify-content: center;
+}
+
+.account {
+  margin-top: 10px;
+  color: rgb(73, 73, 232);
+  font-size: 0.8rem;
+}
