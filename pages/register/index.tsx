@@ -1,11 +1,16 @@
+import SignIn from '@/components/SignIn';
 import SignUp from '@/components/SignUp';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 const Register = () => {
   const [isRegistered, setRegistered] = useState<boolean>(true);
   return (
     <>
-      <SignUp isRegistered={isRegistered} setRegistered={setRegistered} />
+      {isRegistered ? (
+        <SignIn isRegistered={isRegistered} setRegistered={setRegistered} />
+      ) : (
+        <SignUp isRegistered={isRegistered} setRegistered={setRegistered} />
+      )}
     </>
   );
 };

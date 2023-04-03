@@ -18,15 +18,13 @@ type InitialValuesType = {
 };
 
 const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
-  const { push } = useRouter();
+  const route = useRouter();
+
   const handleRegister = () => {
     setRegistered((prev) => !prev);
   };
-  useEffect(() => {
-    console.log(formik.isValid, formik.touched);
-  });
 
-  const formik = useFormik<InitialValuesType>({
+  const formik = useFormik({
     initialValues: {
       name: '',
       surname: '',
@@ -52,7 +50,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
         .required('This field is required!'),
     }),
     onSubmit: () => {
-      console.log('xxx');
+      console.log("You've been registered!");
     },
   });
 
@@ -60,14 +58,18 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
 
   const handleSubmit = () => {
     console.log('done');
-    // setTimeout(() => {
-    //   push('/about');
-    // }, 3000);
+    setTimeout(() => {
+      route.push('/');
+    }, 3000);
   };
 
   return (
-    <>
-      <form>
+    <div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          formik.handleSubmit();
+        }}>
         <div className={style.signup}>
           <div className={style.logo}>Sign up!</div>
           <label htmlFor="name">
@@ -77,6 +79,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
               placeholder="Name"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              value={formik.values.name}
             />
             <br />
           </label>
@@ -90,6 +93,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
               placeholder="Surname"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              value={formik.values.surname}
             />
             <br />
           </label>
@@ -103,6 +107,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
               placeholder="Email"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              value={formik.values.email}
             />
             <br />
           </label>
@@ -116,6 +121,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
               placeholder="Password"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              value={formik.values.password}
             />
           </label>
           {formik.errors.password && formik.touched.password ? (
@@ -128,18 +134,19 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
               placeholder="Confirm password"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              value={formik.values.confirmPassword}
             />
           </label>
           {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
             <div className={style.selected}>{formik.errors.confirmPassword}</div>
           ) : null}
           <div onClick={handleRegister} className={style.account}>
-            Already have account?
+            Create account!
           </div>
           {isSubmiting ? <button onClick={handleSubmit}>Register!</button> : null}
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

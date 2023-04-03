@@ -1,5 +1,6 @@
 import { ThemeContext } from '@/Context/ThemeContext';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import style from './header.module.scss';
 
@@ -17,7 +18,7 @@ const Header = () => {
     }
     console.log(theme);
   };
-
+  const router = useRouter();
   return (
     <header className={theme == 'light' ? `${style.header}` : `${style.dark} ${style.header}`}>
       <div className={style.details}>
@@ -58,11 +59,10 @@ const Header = () => {
           <li>
             <div>Cart</div>
           </li>
-          <Link href="/register">
-            <li>
-              <div>LOGIN</div>
-            </li>
-          </Link>
+
+          <li>
+            <div onClick={() => router.push('/register')}>LOGIN</div>
+          </li>
         </ul>
       </div>
     </header>
