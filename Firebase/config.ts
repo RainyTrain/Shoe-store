@@ -1,17 +1,19 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, getDocs, collection } from 'firebase/firestore';
+import { getFirestore, collection } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDmbv6EKW-sAjBsa7dHPaer0ZSVQ9r4Ncs',
-  authDomain: 'shoe-store-7b838.firebaseapp.com',
-  projectId: 'shoe-store-7b838',
-  storageBucket: 'shoe-store-7b838.appspot.com',
-  messagingSenderId: '255552343161',
-  appId: '1:255552343161:web:cac204521ad98b82e358a8',
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSEGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
 const db = getFirestore();
 
-export const colRef = collection(db, 'person');
+export const personRef = collection(db, 'person');
+
+export const usersRef = collection(db, 'users');

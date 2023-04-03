@@ -1,8 +1,10 @@
 import { useFormik } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 import style from './SignUp.module.scss';
 import * as Yup from 'yup';
-import { useRouter } from 'next/router';
+import { getAuth, createUserWithEmailAndPassword, Auth } from 'firebase/auth';
+import { app, usersRef } from '@/Firebase/config';
+import { addDoc } from 'firebase/firestore';
 
 type SignUpPropsType = {
   isRegistered: boolean;
@@ -17,8 +19,14 @@ type InitialValuesType = {
   confirmPassword: string;
 };
 
+type CreateUserType = {
+  auth: Auth;
+  email: string;
+  password: string;
+};
+
 const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
-  const route = useRouter();
+  const auth = getAuth(app);
 
   const handleRegister = () => {
     setRegistered((prev) => !prev);
@@ -56,11 +64,22 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
 
   const isSubmiting = formik.isValid && Object.keys(formik.touched).length > 0 ? true : false;
 
-  const handleSubmit = () => {
-    console.log('done');
-    setTimeout(() => {
-      route.push('/');
-    }, 3000);
+  const handleSubmit = ({ auth, email, password }: CreateUserType) => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        const userData = {
+          name: formik.values.name,
+          surname: formik.values.surname,
+          email: formik.values.email,
+        };
+        addDoc(usersRef, userData).then(() => console.log('User added to colletion'));
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Error:', errorCode, errorMessage);
+      });
   };
 
   return (
@@ -81,7 +100,6 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
               onBlur={formik.handleBlur}
               value={formik.values.name}
             />
-            <br />
           </label>
           {formik.errors.name && formik.touched.name ? (
             <div className={style.selected}>{formik.errors.name}</div>
@@ -95,7 +113,6 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
               onBlur={formik.handleBlur}
               value={formik.values.surname}
             />
-            <br />
           </label>
           {formik.errors.surname && formik.touched.surname ? (
             <div className={style.selected}>{formik.errors.surname}</div>
@@ -109,7 +126,6 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
               onBlur={formik.handleBlur}
               value={formik.values.email}
             />
-            <br />
           </label>
           {formik.errors.email && formik.touched.email ? (
             <div className={style.selected}>{formik.errors.email}</div>
@@ -143,7 +159,18 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
           <div onClick={handleRegister} className={style.account}>
             Create account!
           </div>
-          {isSubmiting ? <button onClick={handleSubmit}>Register!</button> : null}
+          {isSubmiting ? (
+            <button
+              onClick={() =>
+                handleSubmit({
+                  auth: auth,
+                  email: formik.values.email,
+                  password: formik.values.password,
+                })
+              }>
+              Register!
+            </button>
+          ) : null}
         </div>
       </form>
     </div>

@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import * as Yup from 'yup';
 import style from './Signin.module.scss';
+import { getAuth } from 'firebase/auth';
+import { app } from '@/Firebase/config';
 
 type SignUpPropsType = {
   isRegistered: boolean;
@@ -16,6 +18,8 @@ type InitialValuesType = {
 
 const SignIn: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
   const route = useRouter();
+  const auth = getAuth(app);
+
   const handleRegister = () => {
     setRegistered((prev) => !prev);
   };
@@ -31,7 +35,9 @@ const SignIn: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
         .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/, 'Invalid password')
         .required('This field is required!'),
     }),
-    onSubmit: () => {},
+    onSubmit: () => {
+      console.log("You've been logged in!");
+    },
   });
 
   const isSubmiting = formik.isValid && Object.keys(formik.touched).length > 0 ? true : false;
@@ -45,18 +51,23 @@ const SignIn: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
 
   return (
     <div>
-      <form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          formik.handleSubmit();
+        }}>
         <div className={style.signin}>
           <div className={style.logo}>Sign in!</div>
           <label htmlFor="email">
             <input
               name="email"
               type="text"
+              placeholder="Email"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}></input>
           </label>
-          <br />
+
           {formik.errors.email && formik.touched.email ? (
             <div className={style.selected}>{formik.errors.email}</div>
           ) : null}
@@ -64,11 +75,11 @@ const SignIn: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
             <input
               name="password"
               type="password"
+              placeholder="Password"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}></input>
           </label>
-          <br />
           {formik.errors.password && formik.touched.password ? (
             <div className={style.selected}>{formik.errors.password}</div>
           ) : null}

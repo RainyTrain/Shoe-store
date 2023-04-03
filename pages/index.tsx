@@ -1,17 +1,6 @@
-import { colRef } from '@/Firebase/config';
-import { getDocs } from 'firebase/firestore';
 import Link from 'next/link';
-import { useEffect } from 'react';
 
 export default function Home(props: any) {
-  useEffect(() => {
-    getDocs(colRef).then((data) => {
-      let arr: any = [];
-      data.docs.forEach((item) => arr.push(item.data()));
-      console.log(arr);
-    });
-  }, []);
-
   return (
     <main>
       <ul>

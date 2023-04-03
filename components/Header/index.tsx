@@ -59,9 +59,10 @@ const Header = () => {
           <li>
             <div>Cart</div>
           </li>
-
           <li>
-            <div onClick={() => router.push('/register')}>LOGIN</div>
+            <Link href="/register" legacyBehavior>
+              <a>LOGIN</a>
+            </Link>
           </li>
         </ul>
       </div>
