@@ -1,9 +1,9 @@
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as Yup from 'yup';
 import style from './Signin.module.scss';
-import { getAuth } from 'firebase/auth';
+import { getAuth, Auth, signInWithEmailAndPassword } from 'firebase/auth';
 import { app } from '@/Firebase/config';
 
 type SignUpPropsType = {
@@ -16,9 +16,19 @@ type InitialValuesType = {
   password: string;
 };
 
+type CreateUserType = {
+  auth: Auth;
+  email: string;
+  password: string;
+};
+
 const SignIn: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
   const route = useRouter();
   const auth = getAuth(app);
+
+  useEffect(() => {
+    auth.signOut();
+  }, []);
 
   const handleRegister = () => {
     setRegistered((prev) => !prev);
@@ -42,11 +52,16 @@ const SignIn: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
 
   const isSubmiting = formik.isValid && Object.keys(formik.touched).length > 0 ? true : false;
 
-  const handleSubmit = () => {
-    console.log('done');
-    setTimeout(() => {
-      route.push('/');
-    }, 3000);
+  const handleSubmit = async ({ auth, email, password }: CreateUserType) => {
+    await signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        console.log('You are sign up!');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Error:', errorCode, errorMessage);
+      });
   };
 
   return (
@@ -86,7 +101,18 @@ const SignIn: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
           <div onClick={handleRegister} className={style.account}>
             Already have account?
           </div>
-          {isSubmiting ? <button onClick={handleSubmit}>Register!</button> : null}
+          {isSubmiting ? (
+            <button
+              onClick={() => {
+                handleSubmit({
+                  auth: auth,
+                  email: formik.values.email,
+                  password: formik.values.password,
+                });
+              }}>
+              Register!
+            </button>
+          ) : null}
         </div>
       </form>
     </div>

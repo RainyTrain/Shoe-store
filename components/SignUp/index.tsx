@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './SignUp.module.scss';
 import * as Yup from 'yup';
 import { getAuth, createUserWithEmailAndPassword, Auth } from 'firebase/auth';
@@ -27,6 +27,10 @@ type CreateUserType = {
 
 const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
   const auth = getAuth(app);
+
+  useEffect(() => {
+    console.log(auth.currentUser);
+  }, []);
 
   const handleRegister = () => {
     setRegistered((prev) => !prev);
@@ -64,16 +68,15 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
 
   const isSubmiting = formik.isValid && Object.keys(formik.touched).length > 0 ? true : false;
 
-  const handleSubmit = ({ auth, email, password }: CreateUserType) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
+  const handleSubmit = async ({ auth, email, password }: CreateUserType) => {
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then(async () => {
         const userData = {
           name: formik.values.name,
           surname: formik.values.surname,
           email: formik.values.email,
         };
-        addDoc(usersRef, userData).then(() => console.log('User added to colletion'));
+        await addDoc(usersRef, userData).then(() => console.log('User added to colletion'));
       })
       .catch((error) => {
         const errorCode = error.code;
