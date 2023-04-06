@@ -28,10 +28,6 @@ type CreateUserType = {
 const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
   const auth = getAuth(app);
 
-  useEffect(() => {
-    auth.signOut();
-  }, []);
-
   const handleRegister = () => {
     setRegistered((prev) => !prev);
   };
@@ -77,6 +73,9 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
           email: formik.values.email,
         };
         await addDoc(usersRef, userData).then(() => console.log('User added to colletion'));
+        setTimeout(() => {
+          handleRegister;
+        });
       })
       .catch((error) => {
         const errorCode = error.code;

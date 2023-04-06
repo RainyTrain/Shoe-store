@@ -1,16 +1,20 @@
 import Layout from '@/components/Layout';
 import Theme, { ThemeContext } from '@/Context/ThemeContext';
+import { Provider } from 'react-redux';
+import store from '../Features/Redux/Store';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Theme>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </Theme>
+      <Provider store={store}>
+        <Theme>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Theme>
+      </Provider>
     </>
   );
 }

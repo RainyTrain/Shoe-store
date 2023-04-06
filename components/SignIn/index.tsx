@@ -5,6 +5,8 @@ import * as Yup from 'yup';
 import style from './Signin.module.scss';
 import { getAuth, Auth, signInWithEmailAndPassword } from 'firebase/auth';
 import { app } from '@/Firebase/config';
+import { useAppDispatch } from '@/Features/Redux/Hooks';
+import { setAuth } from '@/Features/Redux/UserSlice';
 
 type SignUpPropsType = {
   isRegistered: boolean;
@@ -23,6 +25,7 @@ type CreateUserType = {
 };
 
 const SignIn: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
+  const dispatch = useAppDispatch();
   const route = useRouter();
   const auth = getAuth(app);
 
@@ -51,6 +54,10 @@ const SignIn: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
   const handleSubmit = async ({ auth, email, password }: CreateUserType) => {
     await signInWithEmailAndPassword(auth, email, password)
       .then(() => {
+        dispatch(setAuth(true));
+        setTimeout(() => {
+          route.push('/profile');
+        }, 3000);
         console.log('You are sign up!');
       })
       .catch((error) => {
