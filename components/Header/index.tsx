@@ -61,7 +61,7 @@ const Header = () => {
           </li>
           <li>
             <Link href="/register" legacyBehavior>
-              <a>LOGIN</a>
+              <a>Profile</a>
             </Link>
           </li>
         </ul>

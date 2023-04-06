@@ -1,4 +1,4 @@
-import { GetStaticPaths } from 'next';
+import { GetStaticPaths, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
@@ -9,9 +9,9 @@ const User = ({ posts }: any) => {
     const fetchData = async () => {
       const res = await fetch('https://jsonplaceholder.typicode.com/users');
       const posts = await res.json();
-      console.log(posts)
+      console.log(posts);
     };
-    fetchData()
+    fetchData();
   }, []);
   return <div>{posts.name}</div>;
 };

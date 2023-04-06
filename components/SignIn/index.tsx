@@ -26,10 +26,6 @@ const SignIn: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
   const route = useRouter();
   const auth = getAuth(app);
 
-  useEffect(() => {
-    auth.signOut();
-  }, []);
-
   const handleRegister = () => {
     setRegistered((prev) => !prev);
   };

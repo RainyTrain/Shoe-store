@@ -29,7 +29,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
   const auth = getAuth(app);
 
   useEffect(() => {
-    console.log(auth.currentUser);
+    auth.signOut();
   }, []);
 
   const handleRegister = () => {
