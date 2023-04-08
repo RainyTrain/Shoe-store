@@ -1,6 +1,7 @@
+import Loading from '@/components/Loading';
 import { useAppDispatch, useAppSelector } from '@/Features/Redux/Hooks';
 import { getUserData } from '@/Features/Redux/UserSlice';
-import { app } from '@/Firebase/config';
+import { app, userSignOut } from '@/Firebase/config';
 import { getAuth } from 'firebase/auth';
 import { getDocs, query, where } from 'firebase/firestore';
 import { useRouter } from 'next/router';
@@ -27,10 +28,17 @@ const Profile = () => {
 
   return (
     <>
-      <div>
-        {user.name} {user.surname} Profile
-      </div>
-      <button onClick={() => console.log(user)}>Click</button>
+      {!isAuth ? (
+        <Loading />
+      ) : (
+        <>
+          <div>
+            {user.name} {user.surname} Profile
+          </div>
+          <button onClick={() => console.log(user)}>Get data</button>
+          <button onClick={() => userSignOut(auth, route, dispatch)}>Log out</button>
+        </>
+      )}
     </>
   );
 };

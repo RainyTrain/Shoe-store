@@ -1,5 +1,11 @@
+import { useAppDispatch } from '@/Features/Redux/Hooks';
+import { AppDispatch } from '@/Features/Redux/Store';
+import { setAuth } from '@/Features/Redux/UserSlice';
 import { initializeApp } from 'firebase/app';
+import { Auth, getAuth } from 'firebase/auth';
 import { getFirestore, collection } from 'firebase/firestore';
+import { useRouter, NextRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -15,5 +21,12 @@ export const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 
 export const personRef = collection(db, 'person');
-
 export const usersRef = collection(db, 'users');
+
+export const userSignOut = async (auth: Auth, route: NextRouter, dispatch: AppDispatch) => {
+  await auth.signOut();
+  setTimeout(() => {
+    dispatch(setAuth(false));
+    route.push('/register');
+  }, 1000);
+};
