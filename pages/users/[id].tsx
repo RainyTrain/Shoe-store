@@ -1,4 +1,3 @@
-import { GetStaticPaths, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
