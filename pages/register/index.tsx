@@ -17,7 +17,7 @@ const Register = () => {
     if (isAuth) {
       router.push('/profile');
     }
-  });
+  }, []);
 
   return (
     <>

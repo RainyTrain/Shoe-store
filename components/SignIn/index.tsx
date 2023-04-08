@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
 import style from './Signin.module.scss';
 import { getAuth, Auth, signInWithEmailAndPassword } from 'firebase/auth';
@@ -33,7 +33,7 @@ const SignIn: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
     setRegistered((prev) => !prev);
   };
 
-  const formik = useFormik({
+  const formik = useFormik<InitialValuesType>({
     initialValues: {
       email: '',
       password: '',

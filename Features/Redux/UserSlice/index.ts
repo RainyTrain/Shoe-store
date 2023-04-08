@@ -25,7 +25,6 @@ const initialState: IInitialState = {
 export const getUserData = createAsyncThunk('user/data', async (email: string) => {
   const q = query(usersRef, where('email', '==', email));
   const getUser = await getDocs(q);
-  console.log('data here ', getUser.docs[0].data());
   return getUser.docs[0].data() as IUser;
 });
 
@@ -39,7 +38,7 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getUserData.fulfilled, (state, action) => {
-      state.user = action.payload
+      state.user = action.payload;
     });
   },
 });

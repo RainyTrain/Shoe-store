@@ -1,10 +1,10 @@
 import { useFormik } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 import style from './SignUp.module.scss';
 import * as Yup from 'yup';
 import { getAuth, createUserWithEmailAndPassword, Auth } from 'firebase/auth';
 import { app, usersRef } from '@/Firebase/config';
-import { addDoc } from 'firebase/firestore';
+import { addDoc, getDocs } from 'firebase/firestore';
 
 type SignUpPropsType = {
   isRegistered: boolean;
@@ -32,7 +32,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
     setRegistered((prev) => !prev);
   };
 
-  const formik = useFormik({
+  const formik = useFormik<InitialValuesType>({
     initialValues: {
       name: '',
       surname: '',
@@ -67,7 +67,9 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
   const handleSubmit = async ({ auth, email, password }: CreateUserType) => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async () => {
+        const getData = await getDocs(usersRef);
         const userData = {
+          id: getData.docs.length + 1,
           name: formik.values.name,
           surname: formik.values.surname,
           email: formik.values.email,
