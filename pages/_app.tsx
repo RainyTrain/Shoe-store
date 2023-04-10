@@ -1,5 +1,5 @@
 import Layout from '@/components/Layout';
-import Theme, { ThemeContext } from '@/Context/ThemeContext';
+import Theme from '@/Context/ThemeContext';
 import { Provider } from 'react-redux';
 import store from '../Features/Redux/Store';
 import '@/styles/globals.css';

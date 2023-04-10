@@ -1,4 +1,3 @@
-import { NextPage } from 'next';
 import style from './about.module.scss';
 
 const About = () => {

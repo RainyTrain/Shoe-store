@@ -1,5 +1,3 @@
-import { NextPage } from 'next';
-
 const Custom404 = () => {
   return (
     <div style={{ textAlign: 'center' }}>

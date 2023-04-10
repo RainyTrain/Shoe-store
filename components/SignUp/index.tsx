@@ -70,6 +70,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ isRegistered, setRegistered }) => {
         const getData = await getDocs(usersRef);
         const userData = {
           id: getData.docs.length + 1,
+          // token: auth.currentUser?.getIdToken(),
           name: formik.values.name,
           surname: formik.values.surname,
           email: formik.values.email,

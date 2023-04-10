@@ -1,11 +1,9 @@
-import { useAppDispatch } from '@/Features/Redux/Hooks';
 import { AppDispatch } from '@/Features/Redux/Store';
 import { setAuth } from '@/Features/Redux/UserSlice';
 import { initializeApp } from 'firebase/app';
-import { Auth, getAuth } from 'firebase/auth';
+import { Auth } from 'firebase/auth';
 import { getFirestore, collection } from 'firebase/firestore';
-import { useRouter, NextRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
+import {  NextRouter } from 'next/router';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
