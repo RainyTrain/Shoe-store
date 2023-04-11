@@ -1,9 +1,10 @@
 import { AppDispatch } from '@/Features/Redux/Store';
 import { setAuth } from '@/Features/Redux/UserSlice';
+import User from '@/pages/users/[id]';
 import { initializeApp } from 'firebase/app';
-import { Auth } from 'firebase/auth';
+import { Auth, updateEmail, updatePassword } from 'firebase/auth';
 import { getFirestore, collection } from 'firebase/firestore';
-import {  NextRouter } from 'next/router';
+import { NextRouter } from 'next/router';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -27,4 +28,16 @@ export const userSignOut = async (auth: Auth, route: NextRouter, dispatch: AppDi
     dispatch(setAuth(false));
     route.push('/register');
   }, 1000);
+};
+
+export const newEmail = async (auth: Auth, newEmail: string) => {
+  await updateEmail(auth.currentUser!, newEmail).then(() => {
+    console.log('Email has been updated');
+  });
+};
+
+export const newPassword = async (auth: Auth, newPassword: string) => {
+  await updatePassword(auth.currentUser!, newPassword).then(() => {
+    console.log('New password has been updated');
+  });
 };

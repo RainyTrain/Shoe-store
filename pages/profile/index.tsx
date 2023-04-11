@@ -12,36 +12,21 @@ const Profile = () => {
   const auth = getAuth(app);
   const route = useRouter();
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
 
   useEffect(() => {
     if (!isAuth) {
       console.log('Not authorised');
       route.push('/register');
     }
-  });
+  }, []);
 
+  
   useEffect(() => {
     console.log('token', auth.currentUser);
     dispatch(getUserData(auth.currentUser?.email as string));
   }, []);
 
-  return (
-    <>
-      {!isAuth ? (
-        <Loading />
-      ) : (
-        <>
-          <Information />
-          <div>
-            {user.name} {user.surname} Profile
-          </div>
-          <button onClick={() => console.log(user)}>Get data</button>
-          <button onClick={() => userSignOut(auth, route, dispatch)}>Log out</button>
-        </>
-      )}
-    </>
-  );
+  return <>{!isAuth ? <Loading /> : <Information />}</>;
 };
 
 export default Profile;
