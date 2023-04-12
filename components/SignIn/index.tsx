@@ -18,7 +18,7 @@ type InitialValuesType = {
   password: string;
 };
 
-type CreateUserType = {
+export type CreateUserType = {
   auth: Auth;
   email: string;
   password: string;
