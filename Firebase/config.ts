@@ -1,7 +1,7 @@
 import { AppDispatch } from '@/Features/Redux/Store';
 import { setAuth } from '@/Features/Redux/UserSlice';
 import { initializeApp } from 'firebase/app';
-import { getStorage, ref } from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, StorageReference, uploadBytes } from 'firebase/storage';
 import {
   Auth,
   createUserWithEmailAndPassword,
@@ -27,9 +27,7 @@ export const app = initializeApp(firebaseConfig);
 
 const db = getFirestore();
 
-const storage = getStorage(app);
-const storageRef = ref(storage);
-
+export const storage = getStorage(app);
 
 export const personRef = collection(db, 'person');
 export const usersRef = collection(db, 'users');
@@ -98,5 +96,14 @@ export const newPhoto = async (auth: Auth, photoURL: string) => {
     photoURL: photoURL,
   }).then(() => {
     console.log('Logo has been updated');
+  });
+};
+
+export const uploadFile = async (auth: Auth, ref: StorageReference, file: File) => {
+  await uploadBytes(ref, file).then(async () => {
+    console.log('Files have been uploaded');
+    await getDownloadURL(ref).then(async (url) => {
+      await newPhoto(auth, url);
+    });
   });
 };
