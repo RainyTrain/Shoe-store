@@ -1,7 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/Features/Redux/Hooks';
-import { app, userSignOut } from '@/Firebase/config';
-import { getAuth, updateEmail, updatePassword } from 'firebase/auth';
+import { app, newEmail, newPassword, newPhoto, userSignOut } from '@/Firebase/config';
+import { getAuth } from 'firebase/auth';
 import { useRouter } from 'next/router';
+import React from 'react';
+import ProfileIMg from '../ProfileImg';
 import style from './Information.module.scss';
 
 const Information = () => {
@@ -12,7 +14,9 @@ const Information = () => {
 
   return (
     <div className={style.info}>
-      <div className={style.side}>Logo</div>
+      <div className={style.side}>
+        <ProfileIMg />
+      </div>
       <div className={style.main}>
         <div className={style.personal}>
           {user.name} {user.surname} Profile
@@ -21,14 +25,14 @@ const Information = () => {
         <button onClick={() => userSignOut(auth, route, dispatch)}>Log out</button>{' '}
         <button
           onClick={() => {
-            updatePassword(auth.currentUser!, 'Adrian2001');
+            newPassword(auth, '');
             console.log(auth.currentUser);
           }}>
           Change password
         </button>
         <button
           onClick={() => {
-            updateEmail(auth.currentUser!, 'adrian@gmail.com');
+            newEmail(auth, '');
             console.log(auth.currentUser);
           }}>
           Change email

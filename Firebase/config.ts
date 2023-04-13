@@ -1,12 +1,14 @@
 import { AppDispatch } from '@/Features/Redux/Store';
 import { setAuth } from '@/Features/Redux/UserSlice';
 import { initializeApp } from 'firebase/app';
+import { getStorage, ref } from 'firebase/storage';
 import {
   Auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateEmail,
   updatePassword,
+  updateProfile,
 } from 'firebase/auth';
 import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
 import { NextRouter } from 'next/router';
@@ -24,6 +26,10 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 
 const db = getFirestore();
+
+const storage = getStorage(app);
+const storageRef = ref(storage);
+
 
 export const personRef = collection(db, 'person');
 export const usersRef = collection(db, 'users');
@@ -84,5 +90,13 @@ export const newEmail = async (auth: Auth, newEmail: string) => {
 export const newPassword = async (auth: Auth, newPassword: string) => {
   await updatePassword(auth.currentUser!, newPassword).then(() => {
     console.log('New password has been updated');
+  });
+};
+
+export const newPhoto = async (auth: Auth, photoURL: string) => {
+  updateProfile(auth.currentUser!, {
+    photoURL: photoURL,
+  }).then(() => {
+    console.log('Logo has been updated');
   });
 };
