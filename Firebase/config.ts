@@ -13,6 +13,7 @@ import {
 import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
 import { NextRouter } from 'next/router';
 import { UserType } from './Types';
+import * as Yup from 'yup';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -80,15 +81,33 @@ export const userSignOut = async (auth: Auth, route: NextRouter, dispatch: AppDi
 };
 
 export const newEmail = async (auth: Auth, newEmail: string) => {
-  await updateEmail(auth.currentUser!, newEmail).then(() => {
-    console.log('Email has been updated');
+  const schema = Yup.object({
+    newEmail: Yup.string().email('Invalid email adress!').required('This field is required!'),
   });
+  try {
+    await schema.validate({ newEmail: newEmail });
+    await updateEmail(auth.currentUser!, newEmail).then(() => {
+      console.log('Email has been updated');
+    });
+  } catch {
+    console.log('ERROR');
+  }
 };
 
 export const newPassword = async (auth: Auth, newPassword: string) => {
-  await updatePassword(auth.currentUser!, newPassword).then(() => {
-    console.log('New password has been updated');
+  const schema = Yup.object({
+    newPassword: Yup.string()
+      .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/, 'Invalid password')
+      .required('This field is required!'),
   });
+  try {
+    await schema.validate({ newPassword: newPassword });
+    await updatePassword(auth.currentUser!, newPassword).then(() => {
+      console.log('New password has been updated');
+    });
+  } catch {
+    console.log('ERROR');
+  }
 };
 
 export const newPhoto = async (auth: Auth, photoURL: string) => {

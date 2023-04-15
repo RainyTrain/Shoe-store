@@ -32,7 +32,7 @@ const Information = () => {
         </button>
         <button
           onClick={() => {
-            newEmail(auth, '');
+            newEmail(auth, 'qwerty');
             console.log(auth.currentUser);
           }}>
           Change email
