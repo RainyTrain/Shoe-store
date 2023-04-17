@@ -1,11 +1,11 @@
 .info {
   border: 1px solid black;
   display: grid;
-  width: 70%;
+  width: 80%;
   grid-template-columns: 1fr 2fr;
   grid-template-rows: 1fr 2fr;
-  min-height: calc(100vh - 60px - 200px - 20vh);
-  margin: 150px 0 150px 0;
+  min-height: calc(100vh - 60px - 200px);
+  margin: 100px 0 100px 0;
   div {
     border: 1px solid black;
   }
@@ -27,8 +27,10 @@
   }
   img {
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: -10%;
   }
 }
 

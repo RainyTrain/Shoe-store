@@ -1,6 +1,9 @@
 .image {
+  transition: all .5s;
+
   &:hover {
-    opacity: 0.5;
+    opacity: 0.9;
+    cursor: pointer;
   }
 }
 
