@@ -6,6 +6,7 @@ import style from './profileimg.module.scss';
 
 const ProfileIMg = () => {
   const auth = getAuth(app);
+
   const clickRef = useRef<HTMLInputElement | null>(null);
 
   const [url, setUrl] = useState<File | null>(null);
@@ -31,26 +32,22 @@ const ProfileIMg = () => {
   }, [url]);
 
   return (
-    <>
-      <div className={style.image}>
-        {auth.currentUser?.photoURL ? (
-          <img
-            onClick={() => {
-              clickRef.current!.click();
-            }}
-            src={auth.currentUser?.photoURL}></img>
-        ) : null}
-      </div>
-      <div>
-        <input
-          onChange={handleFiles}
-          ref={clickRef!}
-          type="file"
-          accept="image/*"
-          className={style.files}
-        />
-      </div>
-    </>
+    <div className={style.image}>
+      {auth.currentUser?.photoURL ? (
+        <img
+          onClick={() => {
+            clickRef.current!.click();
+          }}
+          src={auth.currentUser?.photoURL}></img>
+      ) : null}
+      <input
+        onChange={handleFiles}
+        ref={clickRef!}
+        type="file"
+        accept="image/*"
+        className={style.files}
+      />
+    </div>
   );
 };
 

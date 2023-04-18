@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/Features/Redux/Hooks';
-import { app, newEmail, newPassword, newPhoto, userSignOut } from '@/Firebase/config';
+import { app, newEmail, newPassword, userSignOut } from '@/Firebase/config';
 import { getAuth } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import React from 'react';
