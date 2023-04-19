@@ -1,6 +1,6 @@
-import Loading from '@/components/Loading';
-import SignIn from '@/components/SignIn';
-import SignUp from '@/components/SignUp';
+import Loading from '@/Components/Loading';
+import SignIn from '@/Components/SignIn';
+import SignUp from '@/Components/SignUp';
 import { useAppSelector } from '@/Features/Redux/Hooks';
 import { app } from '@/Firebase/config';
 import { getAuth } from 'firebase/auth';

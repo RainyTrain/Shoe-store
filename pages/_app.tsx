@@ -1,4 +1,4 @@
-import Layout from '@/components/Layout';
+import Layout from '@/Components/Layout';
 import Theme from '@/Context/ThemeContext';
 import { Provider } from 'react-redux';
 import store from '../Features/Redux/Store';

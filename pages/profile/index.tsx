@@ -1,5 +1,5 @@
-import Information from '@/components/Information';
-import Loading from '@/components/Loading';
+import Information from '@/Components/Information';
+import Loading from '@/Components/Loading';
 import { useAppDispatch, useAppSelector } from '@/Features/Redux/Hooks';
 import { getUserData } from '@/Features/Redux/UserSlice';
 import { app, userSignOut } from '@/Firebase/config';
