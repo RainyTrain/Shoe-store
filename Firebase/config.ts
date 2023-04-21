@@ -14,6 +14,7 @@ import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
 import { NextRouter } from 'next/router';
 import { UserType } from './Types';
 import * as Yup from 'yup';
+import { RefObject } from 'react';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,

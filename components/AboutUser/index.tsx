@@ -10,9 +10,25 @@ const AboutUser = () => {
   const user = useAppSelector((state) => state.user);
 
   const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const [active, setActive] = useState<boolean>(false);
-  const [currentValue, setCurrentValue] = useState<string>(auth.currentUser!.email!);
+  const [currentValue, setCurrentValue] = useState<string>('');
+  const [password, hanldlePassword] = useState<string>('');
+  const [errorPassword, handleErrorPassword] = useState<boolean>(false);
+
+  const changeEmail = async () => {
+    if (currentValue !== auth.currentUser!.email) {
+      await newEmail(auth, currentValue);
+    } else {
+      console.log('Emails are the same!');
+    }
+  };
+
+  const changePassword = async () => {
+    await newPassword(auth, password).then(() => handleErrorPassword(true));
+    console.log('Error in password');
+  };
 
   return (
     <>
@@ -27,13 +43,24 @@ const AboutUser = () => {
         <div className={style.change}>
           <label htmlFor="email">
             <span>Email</span>
-            <input ref={emailRef} name="email"></input>
-            <button onClick={() => newEmail(auth, emailRef.current?.value!)}>Update</button>
+            <input
+              ref={emailRef}
+              name="email"
+              value={currentValue}
+              onChange={(event) => setCurrentValue(event.target.value)}
+              onFocus={() => console.log('focus')}></input>
+            <button onClick={changeEmail}>Update email</button>
           </label>
           <br />
-          <label htmlFor="password">
-            <span>Password</span>
-            <input name="password" type="password"></input>
+          <label htmlFor="Password">
+            <span>Current password</span>
+            <input
+              ref={passwordRef}
+              name="Password"
+              type="password"
+              onChange={(event) => hanldlePassword(event.target.value)}
+              className={errorPassword ? style.error : ''}></input>
+            <button onClick={changePassword}>Update password</button>
           </label>
         </div>
       )}
@@ -41,6 +68,8 @@ const AboutUser = () => {
         <button
           onClick={() => {
             setActive(!active);
+            setCurrentValue(auth.currentUser!.email!);
+            handleErrorPassword(false);
           }}>
           Edit profile
         </button>
