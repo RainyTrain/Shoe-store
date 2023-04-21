@@ -10,7 +10,6 @@ const AboutUser = () => {
   const user = useAppSelector((state) => state.user);
 
   const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
 
   const [active, setActive] = useState<boolean>(false);
   const [currentValue, setCurrentValue] = useState<string>('');
@@ -26,7 +25,7 @@ const AboutUser = () => {
   };
 
   const changePassword = async () => {
-    await newPassword(auth, password).then(() => handleErrorPassword(true));
+    await newPassword(auth, password, handleErrorPassword);
     console.log('Error in password');
   };
 
@@ -53,9 +52,8 @@ const AboutUser = () => {
           </label>
           <br />
           <label htmlFor="Password">
-            <span>Current password</span>
+            <span>New password</span>
             <input
-              ref={passwordRef}
               name="Password"
               type="password"
               onChange={(event) => hanldlePassword(event.target.value)}
@@ -71,7 +69,7 @@ const AboutUser = () => {
             setCurrentValue(auth.currentUser!.email!);
             handleErrorPassword(false);
           }}>
-          Edit profile
+          {active ? 'Save' : 'Edit profile'}
         </button>
       </div>
     </>

@@ -1,7 +1,7 @@
 import { AppDispatch } from '@/Features/Redux/Store';
 import { setAuth } from '@/Features/Redux/UserSlice';
 import { initializeApp } from 'firebase/app';
-import { getDownloadURL, getStorage, ref, StorageReference, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, getStorage, StorageReference, uploadBytes } from 'firebase/storage';
 import {
   Auth,
   createUserWithEmailAndPassword,
@@ -14,7 +14,7 @@ import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
 import { NextRouter } from 'next/router';
 import { UserType } from './Types';
 import * as Yup from 'yup';
-import { RefObject } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -95,7 +95,11 @@ export const newEmail = async (auth: Auth, newEmail: string) => {
   }
 };
 
-export const newPassword = async (auth: Auth, newPassword: string) => {
+export const newPassword = async (
+  auth: Auth,
+  newPassword: string,
+  func: Dispatch<SetStateAction<boolean>>,
+) => {
   const schema = Yup.object({
     newPassword: Yup.string()
       .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/, 'Invalid password')
@@ -108,6 +112,7 @@ export const newPassword = async (auth: Auth, newPassword: string) => {
     });
   } catch {
     console.log('ERROR');
+    func(true);
   }
 };
 
