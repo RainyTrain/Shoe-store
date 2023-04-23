@@ -12,7 +12,7 @@ import {
 } from 'firebase/auth';
 import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
 import { NextRouter } from 'next/router';
-import { UserType } from './Types';
+import { PasswordValidationType, UserType } from './Types';
 import * as Yup from 'yup';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -98,7 +98,7 @@ export const newEmail = async (auth: Auth, newEmail: string) => {
 export const newPassword = async (
   auth: Auth,
   newPassword: string,
-  func: Dispatch<SetStateAction<boolean>>,
+  func: Dispatch<SetStateAction<PasswordValidationType>>,
 ) => {
   const schema = Yup.object({
     newPassword: Yup.string()
@@ -108,11 +108,12 @@ export const newPassword = async (
   try {
     await schema.validate({ newPassword: newPassword });
     await updatePassword(auth.currentUser!, newPassword).then(() => {
+      func({ status: false, errorMessage: '' });
       console.log('New password has been updated');
     });
   } catch {
     console.log('ERROR');
-    func(true);
+    func({ status: true, errorMessage: 'Invalid password' });
   }
 };
 

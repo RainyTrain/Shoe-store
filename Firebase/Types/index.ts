@@ -5,3 +5,8 @@ export type UserType = {
   email: string;
   password: string;
 };
+
+export type PasswordValidationType = {
+  status: boolean;
+  errorMessage: string;
+};

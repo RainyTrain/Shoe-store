@@ -22,13 +22,6 @@ const Information = () => {
         <button onClick={() => userSignOut(auth, route, dispatch)}>Log out</button>{' '}
         <button
           onClick={() => {
-            newPassword(auth, '');
-            console.log(auth.currentUser);
-          }}>
-          Change password
-        </button>
-        <button
-          onClick={() => {
             newEmail(auth, 'qwerty');
             console.log(auth.currentUser);
           }}>
