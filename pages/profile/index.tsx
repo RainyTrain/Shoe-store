@@ -2,7 +2,7 @@ import Information from '@/Components/Information';
 import Loading from '@/Components/Loading';
 import { useAppDispatch, useAppSelector } from '@/Features/Redux/Hooks';
 import { getUserData } from '@/Features/Redux/UserSlice';
-import { app, userSignOut } from '@/Firebase/config';
+import { app } from '@/Firebase/config';
 import { getAuth } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';

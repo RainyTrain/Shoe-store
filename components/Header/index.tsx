@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import style from './header.module.scss';
+import profilePic from '../../Assets/logo.png';
+import Image from 'next/image';
 
 const Header = () => {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -16,9 +18,10 @@ const Header = () => {
         setTheme('light');
         break;
     }
-    console.log(theme);
   };
+
   const router = useRouter();
+
   return (
     <header className={theme == 'light' ? `${style.header}` : `${style.dark} ${style.header}`}>
       <div className={style.details}>
@@ -26,7 +29,7 @@ const Header = () => {
           <li>
             <Link href="/">
               <div className={style.logo}>
-                <img src="https://cdn-icons-png.flaticon.com/512/1785/1785348.png" alt="Logo" />
+                <Image src={profilePic} alt="Logo" width={50} height={50} />
               </div>
             </Link>
           </li>

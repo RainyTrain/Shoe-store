@@ -1,18 +1,22 @@
-import { useEffect, useState } from 'react';
+import { FC } from 'react';
 
-const UserMain = () => {
-  const [isSelected, setSelected] = useState<number>(0);
+type UserMainType = {
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const UserMain: FC<UserMainType> = ({ selected, setSelected }) => {
   const values = ['Cart', 'History'];
 
   return (
     <>
       <ul>
-        {values.map((item, index) => {
+        {values.map((item) => {
           return (
             <li
-              onClick={() => setSelected(index)}
-              key={index}
-              style={isSelected == index ? { color: 'red' } : {}}>
+              onClick={() => setSelected(item)}
+              key={item}
+              style={selected == item ? { color: 'red' } : {}}>
               {item}
             </li>
           );
