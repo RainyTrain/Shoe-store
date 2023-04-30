@@ -1,13 +1,14 @@
 import { ThemeContext } from '@/Context/ThemeContext';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import style from './header.module.scss';
 import profilePic from '../../Assets/logo.png';
 import Image from 'next/image';
 
 const Header = () => {
   const { theme, setTheme } = useContext(ThemeContext);
+
+  const headerRef = useRef<HTMLElement>(null);
 
   const handleTheme = () => {
     switch (theme) {
@@ -20,34 +21,44 @@ const Header = () => {
     }
   };
 
-  const router = useRouter();
+  const handleChange = () => {
+    headerRef!.current!.classList.toggle(`${style.responsive}`);
+  };
+
+  useEffect(() => {
+    headerRef.current?.classList.toggle(`${style.dark}`);
+  }, [theme]);
+
+  const hideNavbar = () => {
+    if (headerRef!.current!.classList.contains(`${style.responsive}`)) {
+      headerRef!.current!.classList.remove(`${style.responsive}`);
+    }
+  };
 
   return (
-    <header className={theme == 'light' ? `${style.header}` : `${style.dark} ${style.header}`}>
-      <div className={style.details}>
+    <header ref={headerRef} className={style.header}>
+      <div className={style.logo}>
+        <Link href="/">
+          <Image src={profilePic} alt="Logo" width={50} height={50} onClick={hideNavbar} />
+        </Link>
+      </div>
+      <nav className={style.details}>
         <ul>
           <li>
-            <Link href="/">
-              <div className={style.logo}>
-                <Image src={profilePic} alt="Logo" width={50} height={50} />
-              </div>
-            </Link>
+            <div onClick={hideNavbar}>Sale</div>
           </li>
           <li>
-            <div>Sale</div>
+            <div onClick={hideNavbar}>Men</div>
           </li>
           <li>
-            <div>Men</div>
+            <div onClick={hideNavbar}>Women</div>
           </li>
           <li>
-            <div>Women</div>
-          </li>
-          <li>
-            <div>Kids</div>
+            <div onClick={hideNavbar}>Kids</div>
           </li>
           <li>
             <Link href="/about" legacyBehavior>
-              <a>About</a>
+              <a onClick={hideNavbar}>About</a>
             </Link>
           </li>
           <li>
@@ -56,18 +67,21 @@ const Header = () => {
               className={theme == 'light' ? '' : `${style.dark}`}></button>
           </li>
         </ul>
-      </div>
-      <div className={style.profile}>
+      </nav>
+      <nav className={style.profile}>
         <ul>
           <li>
-            <div>Cart</div>
+            <div onClick={hideNavbar}>Cart</div>
           </li>
           <li>
             <Link href="/register" legacyBehavior>
-              <a>Profile</a>
+              <a onClick={hideNavbar}>Profile</a>
             </Link>
           </li>
         </ul>
+      </nav>
+      <div className={style.sidebutton}>
+        <button onClick={handleChange}>Sidebar</button>
       </div>
     </header>
   );
