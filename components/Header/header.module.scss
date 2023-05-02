@@ -103,6 +103,46 @@
   cursor: pointer;
 }
 
+.toggle {
+  height: 25px;
+  width: 25px;
+  background-color: rgb(26, 95, 232);
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 1.5px;
+    background-color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 0 rgb(255, 255, 255);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 1.5px;
+    background-color: white;
+    transform: translateY(5px);
+  }
+
+  &.active {
+    &::before {
+      transform: translateY(0px) rotate(45deg);
+      box-shadow: 0 0 0 rgb(255, 255, 255);
+    }
+    &::after {
+      transform: translateY(0px) rotate(-45deg);
+    }
+  }
+}
+
 @media (max-width: 1000px) {
   .sidebutton {
     display: block;

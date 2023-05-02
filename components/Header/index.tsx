@@ -4,11 +4,13 @@ import { useContext, useEffect, useRef } from 'react';
 import style from './header.module.scss';
 import profilePic from '../../Assets/logo.png';
 import Image from 'next/image';
+import { usersRef } from '@/Firebase/config';
 
 const Header = () => {
   const { theme, setTheme } = useContext(ThemeContext);
 
   const headerRef = useRef<HTMLElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
 
   const handleTheme = () => {
     switch (theme) {
@@ -33,6 +35,11 @@ const Header = () => {
     if (headerRef!.current!.classList.contains(`${style.responsive}`)) {
       headerRef!.current!.classList.remove(`${style.responsive}`);
     }
+  };
+
+  const handleClick = () => {
+    buttonRef!.current!.classList.toggle(`${style.active}`);
+    headerRef!.current!.classList.toggle(`${style.responsive}`);
   };
 
   return (
@@ -83,6 +90,7 @@ const Header = () => {
       <div className={style.sidebutton}>
         <button onClick={handleChange}>Sidebar</button>
       </div>
+      <div ref={buttonRef} onClick={handleClick} className={style.toggle}></div>
     </header>
   );
 };
