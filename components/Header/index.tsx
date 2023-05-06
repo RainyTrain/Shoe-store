@@ -4,7 +4,6 @@ import { useContext, useEffect, useRef } from 'react';
 import style from './header.module.scss';
 import profilePic from '../../Assets/logo.png';
 import Image from 'next/image';
-import { usersRef } from '@/Firebase/config';
 
 const Header = () => {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -34,6 +33,7 @@ const Header = () => {
   const hideNavbar = () => {
     if (headerRef!.current!.classList.contains(`${style.responsive}`)) {
       headerRef!.current!.classList.remove(`${style.responsive}`);
+      buttonRef!.current!.classList.toggle(`${style.active}`);
     }
   };
 
@@ -87,9 +87,9 @@ const Header = () => {
           </li>
         </ul>
       </nav>
-      <div className={style.sidebutton}>
+      {/* <div className={style.sidebutton}>
         <button onClick={handleChange}>Sidebar</button>
-      </div>
+      </div> */}
       <div ref={buttonRef} onClick={handleClick} className={style.toggle}></div>
     </header>
   );

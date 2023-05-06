@@ -106,21 +106,23 @@
 .toggle {
   height: 25px;
   width: 25px;
-  background-color: rgb(26, 95, 232);
   cursor: pointer;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  visibility: hidden;
+  opacity: 0;
 
   &::before {
     content: '';
     position: absolute;
     width: 18px;
     height: 1.5px;
-    background-color: white;
+    background-color: rgb(0, 0, 0);
     transform: translateY(-5px);
-    box-shadow: 0 5px 0 rgb(255, 255, 255);
+    box-shadow: 0 5px 0 rgb(0, 0, 0);
+    transition: all 0.3s;
   }
 
   &::after {
@@ -128,14 +130,15 @@
     position: absolute;
     width: 18px;
     height: 1.5px;
-    background-color: white;
+    background-color: rgb(0, 0, 0);
     transform: translateY(5px);
+    transition: all 0.3s;
   }
 
   &.active {
     &::before {
       transform: translateY(0px) rotate(45deg);
-      box-shadow: 0 0 0 rgb(255, 255, 255);
+      box-shadow: 0 0 0 rgb(0, 0, 0);
     }
     &::after {
       transform: translateY(0px) rotate(-45deg);
@@ -146,6 +149,11 @@
 @media (max-width: 1000px) {
   .sidebutton {
     display: block;
+  }
+
+  .toggle {
+    visibility: visible;
+    opacity: 1;
   }
 
   .header {
